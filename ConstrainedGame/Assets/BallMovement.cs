@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Movement : MonoBehaviour {
+public class BallMovement : MonoBehaviour {
 
     public float speed;
 
     void Start()
     {
+        Debug.Log("ASDF");
         float x = Random.Range(40, 50f);
         float y = Random.Range(40, 50f);
         float z = Random.Range(40, 50f);
@@ -20,8 +21,8 @@ public class Movement : MonoBehaviour {
         
     }
 
-    void OnCollisionEnter(Collision col)
+    /*void OnCollisionEnter(Collision col)
     {
         
-    }
+    }*/
 }
