@@ -9,20 +9,24 @@ public class BallMovement : MonoBehaviour {
     void Start()
     {
         Debug.Log("ASDF");
-        float x = Random.Range(40, 50f);
-        float y = Random.Range(40, 50f);
-        float z = Random.Range(40, 50f);
-        this.gameObject.GetComponent<Rigidbody>().velocity = new Vector3(speed * x, speed * y, speed * z);
+        float x = Random.Range(10, 30);
+        float y = Random.Range(10, 30);
+        float z = Random.Range(10, 30);
+        this.gameObject.GetComponent<Rigidbody>().velocity = new Vector3(0,0,1);
     }
 
     // Update is called once per frame
     void Update () {
-        //this.transform.Translate(Vector3.forward * Time.deltaTime * speed);
-        
+        //Debug.Log(this.GetComponent<Rigidbody>().velocity.magnitude);
     }
 
-    /*void OnCollisionEnter(Collision col)
+    public void LateUpdate()
     {
-        
-    }*/
+        this.GetComponent<Rigidbody>().velocity = speed * this.GetComponent<Rigidbody>().velocity.normalized;
+    }
+
+    void OnCollisionEnter(Collision col)
+    {
+        Debug.Log(col.gameObject.name);   
+    }
 }

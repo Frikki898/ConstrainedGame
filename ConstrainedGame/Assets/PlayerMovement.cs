@@ -8,19 +8,23 @@ public class PlayerMovement : MonoBehaviour {
     public Camera cam2;
     public bool isP1;
     public float speed;
+    public float dropSpeed;
+    public float jumpForce;
 	
 	// Update is called once per frame
 	void Update () {
-        
+
+        this.GetComponent<Rigidbody>().AddForce(Vector3.down * dropSpeed);
+
         if(isP1)
         {
             takeP1Input();
-            cam1.transform.position = this.transform.position + new Vector3(0, 0, -10);                
+            //cam1.transform.position = this.transform.position + new Vector3(0, 0, -10);              
         }
         else
         {
             takeP2Input();
-            cam2.transform.position = this.transform.position + new Vector3(0, 0, 10);
+            //cam2.transform.position = this.transform.position + new Vector3(0, 0, 10);
         }
 
         
@@ -31,22 +35,29 @@ public class PlayerMovement : MonoBehaviour {
         if(Input.GetKey(KeyCode.A))
         {
             Debug.Log("A");
-            this.gameObject.transform.position -= new Vector3(speed * Time.deltaTime, 0, 0);
+            this.GetComponent<Rigidbody>().AddForce(Vector3.left * speed);
         }
+
         if (Input.GetKey(KeyCode.D))
         {
             Debug.Log("D");
-            this.gameObject.transform.position += new Vector3(speed * Time.deltaTime, 0, 0);
+            this.GetComponent<Rigidbody>().AddForce(Vector3.right * speed);
         }
-        if (Input.GetKey(KeyCode.S))
+        if (Input.GetKeyDown(KeyCode.S))
         {
             Debug.Log("S");
-            //Todo
+            //this.transform.position += Vector3.up * Time.deltaTime * 2 * dropSpeed;
+            this.GetComponent<Rigidbody>().AddForce(Vector3.up * jumpForce);
         }
     }
 
     public void takeP2Input()
     {
+        
+    }
 
+    void OnCollisionEnter(Collision col)
+    {
+        //Debug.Log(this.gameObject.name);
     }
 }
