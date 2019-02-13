@@ -60,6 +60,8 @@ public class PlayerMovement : MonoBehaviour {
         if (goingUp)
         {
             goingUp = false;
+            //makes it so the jump will always make the paddle jump as much even if it's falling down
+            rigid.velocity = new Vector3(rigid.velocity.x, 0, rigid.velocity.z);
             rigid.AddForce(Vector3.up * jumpForce);
         }
     }
