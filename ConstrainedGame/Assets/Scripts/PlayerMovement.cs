@@ -10,15 +10,13 @@ public class PlayerMovement : MonoBehaviour {
     public float speed;
     public float dropSpeed;
     public float jumpForce;
-    private Rigidbody rigid;
+    public Rigidbody rigid;
     private bool goingLeft;
     private bool goingRight;
     private bool goingUp;
-    
 
     private void Start()
     {
-        rigid = GetComponent<Rigidbody>();
         goingLeft = false;
         goingRight = false;
         goingUp = false;
@@ -60,7 +58,7 @@ public class PlayerMovement : MonoBehaviour {
         if (goingUp)
         {
             goingUp = false;
-            //makes it so the jump will always make the paddle jump as much even if it's falling down
+            //Stops the paddle falling so the jump will always make the paddle jump as high even if it's falling down
             rigid.velocity = new Vector3(rigid.velocity.x, 0, rigid.velocity.z);
             rigid.AddForce(Vector3.up * jumpForce);
         }
@@ -85,7 +83,19 @@ public class PlayerMovement : MonoBehaviour {
 
     public void takeP2Input()
     {
-        
+        if(Input.GetKey(KeyCode.J))
+        {
+            goingRight = true;
+        }
+
+        if (Input.GetKey(KeyCode.L))
+        {
+            goingLeft = true;
+        }
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            goingUp = true;
+        }
     }
 
     void OnCollisionEnter(Collision col)
