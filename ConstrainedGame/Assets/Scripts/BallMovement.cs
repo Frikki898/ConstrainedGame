@@ -6,17 +6,17 @@ using UnityEngine;
 
 public class BallMovement : MonoBehaviour {
 
+    public float startSpeed;
     public float speed;
+    public float speedUp;
     private Rigidbody rigid;
+    public ScoreController scoreController;
 
     void Start()
     {
-        Debug.Log("ASDF");
-        float x = Random.Range(10, 30);
-        float y = Random.Range(10, 30);
-        float z = Random.Range(10, 30);
+        speed = startSpeed;
         rigid = GetComponent<Rigidbody>();
-        rigid.velocity = new Vector3(0f, 0f, 1f);
+        initBall();
     }
 
     // Update is called once per frame
@@ -24,21 +24,63 @@ public class BallMovement : MonoBehaviour {
         //Debug.Log(this.GetComponent<Rigidbody>().velocity.magnitude);
     }
 
+
+
+    public void initBall()
+    {
+        this.transform.position = new Vector3(0, 0, 0);
+        rigid.velocity = Vector3.zero;
+        speed = startSpeed;
+        StartCoroutine(Halt());
+        //Random rand = new Random();
+        
+    }
+
     public void LateUpdate()
     {
         rigid.velocity = speed * rigid.velocity.normalized;
+        speed += speedUp * Time.deltaTime;
     }
 
     void OnCollisionEnter(Collision col)
     {
-
-        //Debug.Log(col.gameObject.name);   
+        if(col.gameObject.name == "p2Goal")
+        {
+            scoreController.player2Score += 1;
+            initBall();
+        }
+        else if(col.gameObject.name == "p1Goal")
+        {
+            scoreController.player1Score += 1;
+            initBall();
+        }
     }
 
-    private void OnCollisionExit(Collision collision)
+    IEnumerator Halt()
     {
-        // if the forward movement of the ball is too slow (on the z axis), the game will become too slow
-        // so we increase the z vector a bit
+        Debug.Log(Time.time);
+        yield return new WaitForSeconds(1);
+        float x = Random.Range(40, 80);
+        float y = Random.Range(40, 80);
+        float z = Random.Range(0, 3);
+
+        Debug.Log("x" + x);
+        Debug.Log("y" + y);
+        Debug.Log("z" + z);
+
+        if (z > 1)
+        {
+            rigid.velocity = new Vector3(x, -y, 100);
+        }
+        else
+        {
+            rigid.velocity = new Vector3(-x, y, -100);
+        }
+    }
+
+    /*private void OnCollisionExit(Collision collision)
+    {
+        
         if (System.Math.Abs(rigid.velocity.z/speed) < 0.5f)
         {
             rigid.velocity = new Vector3(rigid.velocity.x, rigid.velocity.y, rigid.velocity.z + 0.1f * speed);
@@ -99,6 +141,6 @@ public class BallMovement : MonoBehaviour {
                 rigid.velocity = new Vector3(rigid.velocity.x, rigid.velocity.y + 0.1f, rigid.velocity.z);
             }
         }
-    }
+    }*/
 
 }
